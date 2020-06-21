@@ -3,7 +3,7 @@
     <div>
       <logo />
       <h1 class="title">
-        nuxt
+        nuxt1
       </h1>
       <div class="links">
         <a
