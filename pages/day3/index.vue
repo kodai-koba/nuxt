@@ -1,79 +1,62 @@
 <template>
   <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        nuxt1
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+      <h1>{{message}}</h1>
+      
+      <div>
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Day</th>
+              <th scope="col">Discipline</th>
+              <th scope="col">Body　Part</th>
+              <th scope="col">How</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(post, i) in json_data" :key="i">
+              <th scope="row">{{post.userId}}</th>
+              <td>{{post.id}}</td>
+              <td>{{post.title}}</td>
+              <td>{{post.body}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
+<button type="button" class="btn btn-primary">Instagram</button>
+<button type="button" class="btn btn-secondary">Tiwtter</button>
+<button type="button" class="btn btn-success">Facebook</button>
+<button type="button" class="btn btn-danger">Youtube</button>
+
+
+<button type="button" class="btn btn-link">Link</button>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import axios from 'axios'
 
 export default {
-  components: {
-    Logo
-  }
+  data() {
+    return {
+      message: "Fitness blog",
+    }
+  },
+  async asyncData() {
+    const url = 'https://jsonplaceholder.typicode.com/posts/'
+    const perms = {
+        'userId': 11,
+        'id': 101,
+        'title': 'Leg',
+        'body': 'Squat with a barbell'
+    }
+    const  res   = (await axios.post(url, perms)).data
+    const { data } = await axios.get(url)
+    data.push(res)
+    console.log(res)
+    return {
+        json_datas: res,
+        json_data: data   
+   }
+ }
 }
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>
